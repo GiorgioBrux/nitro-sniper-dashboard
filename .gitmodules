@@ -1,0 +1,3 @@
+[submodule "slowsniper"]
+	path = slowsniper
+	url = https://github.com/slow/nitro-sniper.git
