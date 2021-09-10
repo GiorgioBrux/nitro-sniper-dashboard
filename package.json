@@ -1,0 +1,22 @@
+{
+  "name": "nitro-sniper-ui",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GiorgioBrux/nitro-sniper-ui.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/GiorgioBrux/nitro-sniper-ui/issues"
+  },
+  "homepage": "https://github.com/GiorgioBrux/nitro-sniper-ui#readme",
+  "dependencies": {
+    "bootstrap-vue": "^2.21.2"
+  }
+}
