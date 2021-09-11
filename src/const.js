@@ -1,7 +1,7 @@
 const status = {
   STARTING: "Starting",
   RUNNING: "Running",
-  SHUTTING_DOWN: "Shutting Down",
+  RESTARTING: "Restarting",
   STOPPED: "Stopped",
 };
 

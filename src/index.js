@@ -1,38 +1,84 @@
 const slowsniper = require("../slowsniper/src/index");
+const { status } = require("./const");
+const { Logger } = require("./log");
 
-//eval(fs.readFileSync("../slowsniper/src/index") + "");
-
-const status = {
-  STARTING: "Starting",
-  RUNNING: "Running",
-  SHUTTING_DOWN: "Shutting Down",
-  STOPPED: "Stopped",
-};
+const io = require("socket.io")({
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+io.listen(888);
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 class SniperRun {
-  constructor() {}
+  constructor() {
+    io.on("connect", (socket) => {
+      socket.emit("change", this.#config);
+    });
+  }
+  #config = {
+    status: status.STOPPED,
+    accounts: "111",
+    last_nitro_sniper: new Date(),
+    uptime: new Date(),
+  };
 
-  #status = status.STOPPED;
-  #config;
-
-  async start() {
-    console.log("Starting sniper...");
-    this.#status = status.STARTING;
-    await slowsniper();
-    this.#status = status.STOPPED;
+  async startSockerLogger() {
+    const onChange = await import("on-change");
+    this.#config = onChange.default(this.#config, (value) => {
+      console.log(
+        `Change detected -> Sending config packet ${JSON.stringify(
+          this.#config
+        )}`
+      );
+      io.emit("change", this.#config);
+    });
   }
 
-  async stop() {}
+  async startSniper() {
+    console.log("Starting sniper...");
+    this.#config.status = status.STARTING;
+    await slowsniper.init();
+    this.#config.status = status.RUNNING;
+    await delay(5000);
+    await slowsniper.quit();
+    this.#config.status = status.STOPPED;
+  }
+
+  async stopSniper() {
+    console.log("Stopping sniper...");
+    await slowsniper.quit();
+    this.#config.status = status.STOPPED;
+  }
+
+  async exit() {
+    /*    console.log("Changing to stopped");
+    this.#config.status = status.STOPPED;*/
+  }
+
+  async log(line) {}
 }
 
-const sniper = new SniperRun();
-sniper.start();
+async function init() {
+  process.env.settings = `{
+  tokens: {
+    main: 'ODg2MzE3MTE3MzQ2MDU0MjA1.YT0Agg.uFRnaSX3mDyrqBw5zWuxnbhqu54',
+      alts: [
+      '',
+    ],
+  },
+  mode: 'main'
+}`;
+
+  global.sniper = new SniperRun();
+  global.weblogger = new Logger();
+  await global.sniper.startSockerLogger();
+  await global.sniper.startSniper();
+}
 
 module.exports = {
   SniperRun,
-  status,
 };
 
-const interval = setInterval(function () {
-  //component.methods.changeState(status.SHUTTING_DOWN);
-}, 10000);
+init();

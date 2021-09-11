@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/GiorgioBrux/nitro-sniper-ui#readme",
   "dependencies": {
-    "socket.io": "^4.2.0"
+    "socket.io": "^4.2.0",
+    "on-change": "^4.0.0"
   }
 }

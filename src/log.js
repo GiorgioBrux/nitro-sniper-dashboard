@@ -18,21 +18,11 @@ class Logger {
 
   #history = [];
 
-  async send_history() {
-    for (const line of this.#history) io.send(line);
-  }
-
   async log(line) {
     console.log(line);
-    io.send(line);
-    this.#history.push(line);
+    io.send(line + "\n");
+    this.#history.push(line + "\n");
   }
 }
 
-module.exports = {
-  Logger,
-};
-
-const interval = setInterval(function () {
-  global.sniper.log("test");
-}, 5000);
+module.exports = { Logger };
