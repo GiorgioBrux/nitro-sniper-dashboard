@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/GiorgioBrux/nitro-sniper-ui#readme",
   "dependencies": {
-    "bootstrap-vue": "^2.21.2"
+    "socket.io": "^4.2.0"
   }
 }
