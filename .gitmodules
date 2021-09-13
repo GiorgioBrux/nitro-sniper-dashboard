@@ -1,6 +1,6 @@
 [submodule "slowsniper"]
 	path = slowsniper
 	url = https://github.com/GiorgioBrux/nitro-sniper.git
-[submodule "spiderweb"]
-	path = spiderweb
+[submodule "sniperweb"]
+	path = sniperweb
 	url = https://github.com/GiorgioBrux/sniperweb.git

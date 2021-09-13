@@ -1,28 +1,41 @@
 const slowsniper = require("../slowsniper/src/index");
 const { status } = require("./const");
 const { Logger } = require("./log");
+const { Update } = require("./update");
 
-const io = require("socket.io")({
+global.io = require("socket.io")({
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
-io.listen(888);
+global.io.listen(888);
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 class SniperRun {
   constructor() {
-    io.on("connect", (socket) => {
+    const update = new Update();
+
+    global.io.on("connect", (socket) => {
       socket.emit("change", this.#config);
+      socket.on("sniper", (action) => {
+        console.log(`Got action ${action}`);
+        if (!this.#runningAction) this.handleAction(action);
+      });
+
+      socket.on("checkupdates", () => {
+        update.checkupdates();
+      });
+      socket.on("updateall", () => {
+        update.updateall();
+      });
     });
   }
   #config = {
     status: status.STOPPED,
-    accounts: "111",
     last_nitro_sniper: new Date(),
-    uptime: new Date(),
   };
+  #runningAction = false;
 
   async startSockerLogger() {
     const onChange = await import("on-change");
@@ -32,7 +45,7 @@ class SniperRun {
           this.#config
         )}`
       );
-      io.emit("change", this.#config);
+      global.io.emit("change", this.#config);
     });
   }
 
@@ -41,20 +54,35 @@ class SniperRun {
     this.#config.status = status.STARTING;
     await slowsniper.init();
     this.#config.status = status.RUNNING;
-    await delay(5000);
-    await slowsniper.quit();
-    this.#config.status = status.STOPPED;
+    this.#config.accounts = global.active.length;
+    this.#config.servers = global.guildCount;
+    this.#config.uptime = new Date().toISOString();
   }
 
   async stopSniper() {
     console.log("Stopping sniper...");
     await slowsniper.quit();
     this.#config.status = status.STOPPED;
+    this.#config.uptime = null;
+    this.#config.accounts = null;
+    this.#config.servers = null;
   }
 
-  async exit() {
-    /*    console.log("Changing to stopped");
-    this.#config.status = status.STOPPED;*/
+  async handleAction(action) {
+    this.#runningAction = true;
+    switch (action) {
+      case "stop":
+        await this.stopSniper();
+        break;
+      case "start":
+        await this.startSniper();
+        break;
+      case "restart":
+        await this.stopSniper();
+        await this.startSniper();
+        break;
+    }
+    this.#runningAction = false;
   }
 
   async log(line) {}
