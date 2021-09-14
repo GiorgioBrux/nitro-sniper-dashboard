@@ -21,7 +21,7 @@
 - This uses a fork of slow's sniper.
   - For this reason, sniper updates may not be immediately available.
   - For this reason, **don't ask or send support requests to slow**.
-- Breaking changes to the npm installation are expected soon. This **will require manual intervention**.
+- Breaking changes to the installation/run processes are expected soon. This **will require manual intervention**.
 - The updater hasn't been tested. You are warned!
 
 #### Installation
@@ -41,3 +41,6 @@
 
 This will open an http server listening on port 3000. <br>
 I reccomend using a reverse proxy with an http auth/cloudflare access to connect over the internet.
+
+## License
+Unlike my sniper, slow's sniper (my fork included) and this dashboard are all unlicensed aka All Rights Reserved ©. <br>
