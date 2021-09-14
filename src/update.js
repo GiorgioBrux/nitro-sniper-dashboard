@@ -13,13 +13,13 @@ class Update {
       sniper: false,
     };
 
-    const controllerstatus = await this.git.status();
+    const controllerstatus = await this.git.fetch().status();
 
     const gitwebsite = simpleGit(process.cwd() + "/sniperweb");
     const gitsniper = simpleGit(process.cwd() + "/slowsniper");
 
-    const websitestatus = await gitwebsite.status();
-    const sniperstatus = await gitsniper.status();
+    const websitestatus = await gitwebsite.fetch().status();
+    const sniperstatus = await gitsniper.fetch().status();
 
     if (controllerstatus.behind > 0) updates.controller = true;
     if (websitestatus.behind > 0) updates.website = true;

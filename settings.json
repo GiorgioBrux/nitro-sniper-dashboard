@@ -1,0 +1,63 @@
+{
+  "tokens": {
+    "main": "",
+    "alts": [""]
+  },
+  "mode": "both",
+  "status": {
+    "main": "default",
+    "alts": "default"
+  },
+  "nitro": {
+    "max": 2,
+    "cooldown": 24
+  },
+  "giveaway": {
+    "enabled": true,
+    "delay": 30,
+    "dm": true,
+    "dmMessage": "Hey, i won the giveaway. Could i redeem my prize?",
+    "dmDelay": 25,
+    "blacklistedWords": ["bot", "test", "ban"],
+    "whitelistOnly": false,
+    "whitelistedWords": ["nitro"],
+    "blacklistedServers": [""],
+    "whitelistServersOnly": false,
+    "whitelistedServers": [""]
+  },
+  "invite": {
+    "enabled": false,
+    "delay": {
+      "min": 10,
+      "max": 20
+    },
+    "members": {
+      "min": 1500,
+      "max": 50000
+    },
+    "max": 10,
+    "cooldown": 6,
+    "onlyAlts": true
+  },
+  "webhook": {
+    "url": "",
+    "enabled": {
+      "codeInvalid": false,
+      "codeAlreadyRedeemed": false,
+      "codeSuccess": true,
+      "giveawayEntered": true,
+      "giveawayWin": true,
+      "inviteJoin": false,
+      "inviteFail": false
+    },
+    "mentionEveryone": {
+      "codeInvalid": false,
+      "codeAlreadyRedeemed": false,
+      "codeSuccess": true,
+      "giveawayEntered": false,
+      "giveawayWin": true,
+      "inviteJoin": false,
+      "inviteFail": false
+    }
+  }
+}

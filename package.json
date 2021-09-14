@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "",
   "main": "src/index.js",
+  "engines": {
+    "node": ">=14"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,8 +20,8 @@
   },
   "homepage": "https://github.com/GiorgioBrux/nitro-sniper-ui#readme",
   "dependencies": {
-    "socket.io": "^4.2.0",
     "on-change": "^4.0.0",
-    "simple-git": "^2.45.1"
+    "simple-git": "^2.45.1",
+    "socket.io": "^4.2.0"
   }
 }

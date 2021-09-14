@@ -2,6 +2,9 @@ const slowsniper = require("../slowsniper/src/index");
 const { status } = require("./const");
 const { Logger } = require("./log");
 const { Update } = require("./update");
+const fs = require("fs");
+const path = require("path");
+const settingspath = path.join(__dirname, "..", "settings.json");
 
 global.io = require("socket.io")({
   cors: {
@@ -29,6 +32,16 @@ class SniperRun {
       socket.on("updateall", () => {
         update.updateall();
       });
+
+      socket.on("settingupdate", (data) => {
+        global.settings = data;
+        try {
+          fs.writeFileSync(settingspath, JSON.stringify(data));
+        } catch {}
+      });
+      socket.on("settingrequest", () => {
+        socket.emit("settingback", global.settings);
+      });
     });
   }
   #config = {
@@ -53,10 +66,12 @@ class SniperRun {
     console.log("Starting sniper...");
     this.#config.status = status.STARTING;
     await slowsniper.init();
-    this.#config.status = status.RUNNING;
-    this.#config.accounts = global.active.length;
-    this.#config.servers = global.guildCount;
-    this.#config.uptime = new Date().toISOString();
+    if (global.active.length !== 0) {
+      this.#config.status = status.RUNNING;
+      this.#config.accounts = global.active.length;
+      this.#config.servers = global.guildCount;
+      this.#config.uptime = new Date().toISOString();
+    }
   }
 
   async stopSniper() {
@@ -89,15 +104,11 @@ class SniperRun {
 }
 
 async function init() {
-  process.env.settings = `{
-  tokens: {
-    main: 'ODg2MzE3MTE3MzQ2MDU0MjA1.YT0Agg.uFRnaSX3mDyrqBw5zWuxnbhqu54',
-      alts: [
-      '',
-    ],
-  },
-  mode: 'main'
-}`;
+  try {
+    await fs.readFile(settingspath, "utf-8", (err, data) => {
+      global.settings = JSON.parse(data);
+    });
+  } catch {}
 
   global.sniper = new SniperRun();
   global.weblogger = new Logger();
