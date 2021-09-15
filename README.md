@@ -25,7 +25,7 @@
 - The updater hasn't been tested. You are warned!
 
 #### Installation
-- `git clone https://github.com/GiorgioBrux/nitro-sniper-dashboard.git`
+- `git clone --recurse-submodules https://github.com/GiorgioBrux/nitro-sniper-dashboard.git`
 - `cd nitro-sniper-dashboard`
 - `npm install`
 - `cd sniperweb`
