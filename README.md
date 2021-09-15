@@ -17,6 +17,7 @@
 #### Prerequisites and warnings
 - Node 14.x and npm 7.x is required.
 - Git is required.
+- The updater uses the `sh` command to run a script. If you are on windows, this will likely not work.
 - Heroku/Replit are currently unsupported. They **may** work, but I haven't tested them.
 - This uses a fork of slow's sniper.
   - For this reason, sniper updates may not be immediately available.
